@@ -4,8 +4,12 @@ import ReactDOM from 'react-dom'
 class App extends React.Component {
   constructor(props) {
     super(props)
+    const tempPisteet = 
+      Array.apply(null, Array(props.anecdotes.length)).map(Number.prototype.valueOf,0)
+    
     this.state = {
-      selected: 0
+      selected: 0,
+      pisteet: tempPisteet
     }
   }
 
@@ -15,11 +19,23 @@ class App extends React.Component {
     })
   }
 
+  vote = () => {
+    const kopio = [...this.state.pisteet]
+    kopio[this.state.selected] += 1
+    this.setState({
+      pisteet: kopio
+    })
+  }
+
   render() {
     return (
       <div>
         {this.props.anecdotes[this.state.selected]}
-        <div><button onClick={this.handleClick}>next anecdote</button></div>
+        <div>
+          <p>has {this.state.pisteet[this.state.selected]} votes </p>
+          <button onClick={this.handleClick}>next anecdote</button>
+          <button onClick={this.vote}>vote!</button>
+        </div>
       </div>
     )
   }
