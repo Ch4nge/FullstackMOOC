@@ -34,9 +34,10 @@ class App extends Component {
     })
   }
 
+
+
   render() {
     const round = (number) => Math.round(number * 10) /10 
-
     const yhteensa = this.state.huono + this.state.hyva + this.state.neutraali
 
     const statistics = [
@@ -69,7 +70,7 @@ class App extends Component {
         <Button text='Neutraali' handleClick={this.handleClick('neutraali')} />
         <Button text='Huono' handleClick={this.handleClick('huono')} />
         <h1>statistiikka</h1>
-        <Statistics statistics={statistics} />
+        <Statistics statistics={statistics} yhteensa={yhteensa}/>
       </div>
     );
   }
