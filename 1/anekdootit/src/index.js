@@ -9,6 +9,7 @@ class App extends React.Component {
     
     this.state = {
       selected: 0,
+      most: 0,
       pisteet: tempPisteet
     }
   }
@@ -22,8 +23,14 @@ class App extends React.Component {
   vote = () => {
     const kopio = [...this.state.pisteet]
     kopio[this.state.selected] += 1
+    const most = kopio.reduce((sum, votes, i) => {
+      if(votes > kopio[sum])
+        return i
+      return sum
+    }, 0)
     this.setState({
-      pisteet: kopio
+      pisteet: kopio,
+      most: most
     })
   }
 
@@ -36,6 +43,9 @@ class App extends React.Component {
           <button onClick={this.handleClick}>next anecdote</button>
           <button onClick={this.vote}>vote!</button>
         </div>
+        <h1>anecdote with most votes</h1>
+        <p>{this.props.anecdotes[this.state.most]}</p>
+        <p>has {this.state.pisteet[this.state.most]} votes </p>
       </div>
     )
   }
