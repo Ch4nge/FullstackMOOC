@@ -1,73 +1,54 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Kurssi from './Kurssi'
 
 
-const Otsikko = (props) => {
-  return(
-    <h1>{props.kurssi}</h1>
-  )
-}
-
-const Osa = (props) => {
-  return(
-    <p>{props.osa.nimi} {props.osa.tehtavia}</p>
-  )
-}
-
-const Sisalto = (props) => {
-  return(
-    <div>
-      {props.osat.map((osa) => <Osa key={osa.id} osa={osa} />)}
-    </div>
-  )
-}
-
-const Yhteensa = (props) => {
-  const yhteensa = props.osat.reduce((sum, osa) => {
-    return sum + osa.tehtavia
-  }, 0)
-  return(
-    <p>yhteensä: {yhteensa}</p>
-  )
-}
-
-const Kurssi = (props) => {
-  const { kurssi } = props
-  return(
-    <div>
-      <Otsikko kurssi={kurssi.nimi} />
-      <Sisalto osat={kurssi.osat} />
-      <Yhteensa osat={kurssi.osat} />
-    </div>
-  )
-}
 
 const App = () => {
-  const kurssi = {
-    nimi: 'Half Stack -sovelluskehitys',
-    osat: [
-      {
-        nimi: 'Reactin perusteet',
-        tehtavia: 10,
-        id: 1
-      },
-      {
-        nimi: 'Tiedonvälitys propseilla',
-        tehtavia: 7,
-        id: 2
-      },
-      {
-        nimi: 'Komponenttien tila',
-        tehtavia: 14,
-        id: 3
-      }
-    ]
-  }
+  const kurssit = [
+    {
+      nimi: 'Half Stack -sovelluskehitys',
+      id: 1,
+      osat: [
+        {
+          nimi: 'Reactin perusteet',
+          tehtavia: 10,
+          id: 1
+        },
+        {
+          nimi: 'Tiedonvälitys propseilla',
+          tehtavia: 7,
+          id: 2
+        },
+        {
+          nimi: 'Komponenttien tila',
+          tehtavia: 14,
+          id: 3
+        }
+      ]
+    },
+    {
+      nimi: 'Node.js',
+      id: 2,
+      osat: [
+        {
+          nimi: 'Routing',
+          tehtavia: 3,
+          id: 1
+        },
+        {
+          nimi: 'Middlewaret',
+          tehtavia: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
 
 
   return (
     <div>
-      <Kurssi kurssi={kurssi} />
+      {kurssit.map(kurssi => <Kurssi key={kurssi.id} kurssi={kurssi}/>)}
     </div>
   )
 }
