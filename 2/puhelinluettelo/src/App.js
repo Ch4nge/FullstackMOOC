@@ -1,15 +1,14 @@
 import React from 'react'
 import Persons from './Persons'
 import Input from './Input'
+import axios from 'axios'
+
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      persons: [
-        { name: 'Arto Hellas', number: '040-123456' },
-        { name: 'Sami Hautamäki', number: '0405827782'}
-      ],
+      persons: [],
       newName: '',
       newNum: '',
       filterName: ''
@@ -43,6 +42,14 @@ class App extends React.Component {
     }
     event.target.value = ''
   }
+
+  componentDidMount() {
+    axios.get('http://localhost:3001/persons')
+      .then(response => {
+        this.setState({ persons: response.data })
+      })
+  }
+
 
   render() {
     const { persons, newName, newNum, filterName } = this.state
