@@ -1,4 +1,6 @@
-import React from 'react';
+import React from 'react'
+import Persons from './Persons'
+import Input from './Input'
 
 class App extends React.Component {
   constructor(props) {
@@ -22,7 +24,10 @@ class App extends React.Component {
 
   addPerson = (event) => {
     event.preventDefault()
-    const person = { name: this.state.newName }
+    const person = { 
+      name: this.state.newName,
+      number: this.state.newNum  
+    }
 
     if(this.state.persons.filter( p => p.name === person.name).length === 0) {
       const tempPersons = this.state.persons.concat(person)
@@ -49,22 +54,15 @@ class App extends React.Component {
       <div>
         <h2>Puhelinluettelo</h2>
         <form>
-          rajaa näytettäviä <input name="filterName" value={filterName} onChange={this.onChangeHandler} />
+          <Input text="rajaa näyettäviä" name="filterName" value={filterName} onChange={this.onChangeHandler} />
           <h2>Lisää uusi</h2>
-          <div>
-            nimi: <input name="newName" value={newName} onChange={this.onChangeHandler}/>
-          </div>
-          <div>
-            numero: <input name="newNum" value={newNum} onChange={this.onChangeHandler}/>
-          </div>
+          <Input text="nimi" name="newName" value={newName} onChange={this.onChangeHandler} />
+          <Input text="numero" name="newNum" value={newNum} onChange={this.onChangeHandler} />
           <div>
             <button type="submit" onClick={this.addPerson}>lisää</button>
           </div>
         </form>
-        <h2>Numerot</h2>
-        <ul>
-          {filteredPersons.map(person => <li key={person.name}>{person.name} </li>)}
-        </ul>
+        <Persons persons={filteredPersons} />
       </div>
     )
   }
