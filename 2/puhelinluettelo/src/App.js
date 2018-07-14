@@ -2,6 +2,8 @@ import React from 'react'
 import Persons from './Persons'
 import Input from './Input'
 import axios from 'axios'
+import module from './module'
+import Notification from './Notification'
 
 
 class App extends React.Component {
@@ -11,7 +13,9 @@ class App extends React.Component {
       persons: [],
       newName: '',
       newNum: '',
-      filterName: ''
+      filterName: '',
+      notificationMessage: null,
+      messageType: 'success'
     }
   }
 
@@ -29,37 +33,82 @@ class App extends React.Component {
     }
 
     if(this.state.persons.filter( p => p.name === person.name).length === 0) {
-      const tempPersons = this.state.persons.concat(person)
-      this.setState({
-        persons: tempPersons,
-        newName: ''
-      })
+      module.create(person)
+        .then(() => {
+          this.getPersons()
+          this.setState({
+            newName: '',
+            newNum: ''
+          })
+          this.setMessage('success', person.name + " lisätty")
+        })
+      
     }else{
-      alert('Henkilö löytyy jo luettelosta')
-      this.setState({
-        newName: ''
-      })
+      let p = this.state.persons.find( (p2) => (p2.name === person.name))
+      this.updatePerson(p.id, person)
     }
     event.target.value = ''
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3001/persons')
+    this.getPersons()
+  }
+
+  deletePerson = (person) => {
+    if(window.confirm("poistetaanko "+person.name)){
+      module.deletePerson(person.id)
+        .then(() => {
+          this.getPersons()
+          this.setMessage('success', person.name+" poistettu")
+        })
+    }
+  }
+
+  updatePerson = (id, person) => {
+    if(window.confirm(person.name + " on jo luettelossa, korvataanko vanha numero uudella?")){
+      module.update(id, person)
+        .then(() => {
+          this.getPersons()
+          this.setState({
+            newName: '',
+            newNum: ''
+          })
+          this.setMessage('success', person.name+" päivitetty")
+        }).catch(error => {
+          this.setMessage('error', "Virhe, henkilön "+person.name+" tiedot on poistettu, yritä uudelleen")
+          this.getPersons()
+        })
+    }
+  }
+
+  getPersons = () => {
+    module.getAll()
       .then(response => {
+        console.log(response);
         this.setState({ persons: response.data })
       })
   }
 
+  setMessage = (type, message) => {
+    this.setState({
+      notificationMessage: message,
+      messageType: type
+    })
+    setTimeout(() => {
+      this.setState({notificationMessage: null})
+    }, 2000)
+  }
 
   render() {
     const { persons, newName, newNum, filterName } = this.state
     const filteredPersons = persons.filter( 
       person => person.name.toLocaleLowerCase().includes(filterName) 
     )
-    
+
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+        <Notification type={this.state.messageType} message={this.state.notificationMessage}/>
         <form>
           <Input text="rajaa näyettäviä" name="filterName" value={filterName} onChange={this.onChangeHandler} />
           <h2>Lisää uusi</h2>
@@ -69,7 +118,7 @@ class App extends React.Component {
             <button type="submit" onClick={this.addPerson}>lisää</button>
           </div>
         </form>
-        <Persons persons={filteredPersons} />
+        <Persons persons={filteredPersons} delete={this.deletePerson} />
       </div>
     )
   }

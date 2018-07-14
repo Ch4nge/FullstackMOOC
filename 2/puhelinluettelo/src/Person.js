@@ -2,7 +2,11 @@ import React from 'react'
 
 const Person = (props) => {
   return(
-    <li>{props.person.name} {props.person.number}</li>
+    <tr>
+      <td>{props.person.name}</td>
+      <td>{props.person.number}</td>
+      <td><button onClick={props.delete}>Poista</button></td>
+    </tr>
   )
 }
 

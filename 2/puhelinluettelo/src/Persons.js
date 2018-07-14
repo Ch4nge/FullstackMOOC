@@ -5,9 +5,12 @@ const Persons = (props) => {
   return (
   <div>
     <h2>Numerot</h2>
-    <ul>
-      {props.persons.map( person => <Person key={person.name} person={person} />)}
-    </ul>
+    <table>
+      <tbody>
+      {props.persons.map( person => 
+        <Person key={person.name} delete={() => props.delete(person)} person={person} />)}
+      </tbody>
+    </table>
   </div>
   )
 }
