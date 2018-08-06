@@ -72,6 +72,10 @@ blogsRouter.delete('/:id', async (request, response) => {
     if(!token || !decoded.id){
       return response.status(401).json({ error: 'bad token' })
     }
+    if(blog[0].user === undefined){
+      await blog[0].remove()
+      return response.status(204).end()
+    }
     if(decoded.id.toString() !==  blog[0].user.toString()){
       return response.status(400).json({ error: 'only creator can delete' })
     }
