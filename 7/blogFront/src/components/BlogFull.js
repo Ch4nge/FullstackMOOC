@@ -1,14 +1,14 @@
-import React from 'react' 
+import React from 'react'
 import Comment from './Comment'
-import { connect } from 'react-redux' 
-import { Button, Form, TextArea, Table, Header, Comment as Comm } from 'semantic-ui-react' 
-import { commentBlog } from '../reducers/blogReducer'
+import { connect } from 'react-redux'
+import { Button, Form, TextArea, Table, Header, Comment as Comm } from 'semantic-ui-react'
+import { commentBlog, deleteBlog } from '../reducers/blogReducer'
 
 
 class BlogFull extends React.Component {
 
   constructor() {
-    super() 
+    super()
     this.state = {
       comment: ''
     }
@@ -17,19 +17,19 @@ class BlogFull extends React.Component {
   handleChange = (event) => {
     this.setState({
       comment: event.target.value
-    }) 
+    })
   }
   handleSubmit = (event) => {
-    event.preventDefault(); 
+    event.preventDefault()
     this.props.commentBlog(this.props.blog.id, this.state.comment)
     this.setState({
       comment: ''
-    }) 
+    })
   }
-  render() { 
-    const { blog } = this.props
+  render() {
+    const { blog, user } = this.props
     if(blog === null || blog === undefined){
-      return <div> </div> 
+      return <div> </div>
     }
     return (
       <div>
@@ -53,6 +53,10 @@ class BlogFull extends React.Component {
             </Table.Row>
           </Table.Body>
         </Table>
+        {blog.user.username === user.username ?
+          <Button color='red' onClick={ () => this.props.deleteBlog(blog.id)}> Delete </Button>
+          :
+          <div></div>}
         <Comm.Group>
           <Header as='h3'> Comments </Header>
           {blog.comments.map((c,i) => <Comment key={'c'+i}comment={c} />)}
@@ -60,9 +64,9 @@ class BlogFull extends React.Component {
         <Form onSubmit={this.handleSubmit}>
           <TextArea placeholder='Comment..' onChange={this.handleChange} value={this.state.comment}/>
           <Button color='green'> Send </Button>
-        </Form> 
+        </Form>
       </div>
-    ) 
+    )
   }
 }
 
@@ -71,11 +75,12 @@ const mapStateToProps = (state, props) => {
   const { id } = props
   console.log(id, state.blogs.find((b) => b.id === id.toString()))
   if (state.blogs === undefined){
-    return null 
+    return null
   }
   return {
-    blog: state.blogs.find((b) => b.id === id)
+    blog: state.blogs.find((b) => b.id === id),
+    user: state.user
   }
 }
 
-export default connect(mapStateToProps, {commentBlog})(BlogFull)
+export default connect(mapStateToProps, { commentBlog, deleteBlog })(BlogFull)

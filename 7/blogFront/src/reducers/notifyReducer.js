@@ -5,12 +5,12 @@ const initState = {
 
 const reducer = (state = initState, action) => {
   switch(action.type){
-    case 'NOTIFY':
-      return action.notification
-    case 'CLEAR':
-      return initState 
-    default:
-      return state
+  case 'NOTIFY':
+    return action.notification
+  case 'CLEAR':
+    return initState
+  default:
+    return state
   }
 }
 

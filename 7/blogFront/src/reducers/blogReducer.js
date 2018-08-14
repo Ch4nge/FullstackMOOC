@@ -1,24 +1,25 @@
-import blogService from '../services/blogs' 
+import blogService from '../services/blogs'
 
 const reducer = (state = [], action) => {
   switch(action.type){
-    case 'INIT':
-      return action.blogs
-    case 'CREATE':
-      return state.concat(action.blog)
-    case 'DELETE':
-      return state.filter(b => b.id !== action.id)
-    case 'LIKE':
-      const oldBlogs = state.filter(b => b.id !== action.id)
-      const updated = state.find(b => b.id === action.id)
-      console.log(updated) 
-      return [...oldBlogs, {...updated, likes: updated.likes + 1}]
-    case 'COMMENT':
-      const oBlogs = state.filter(b => b.id !== action.id)
-      const commented = state.find(b => b.id === action.id)
-      return [...oBlogs, {...commented, comments: commented.comments.concat(action.comment)}]
-    default:
-      return state
+  case 'INIT':
+    return action.blogs
+  case 'CREATE':
+    return state.concat(action.blog)
+  case 'DELETE':
+    return state.filter(b => b.id !== action.id)
+  case 'LIKE':{
+    const oldBlogs = state.filter(b => b.id !== action.id)
+    const updated = state.find(b => b.id === action.id)
+    return [...oldBlogs, { ...updated, likes: updated.likes + 1 }]
+  }
+  case 'COMMENT':{
+    const oBlogs = state.filter(b => b.id !== action.id)
+    const commented = state.find(b => b.id === action.id)
+    return [...oBlogs, { ...commented, comments: commented.comments.concat(action.comment) }]
+  }
+  default:
+    return state
   }
 }
 
@@ -30,11 +31,11 @@ export const initBlogs = () => {
       blogs: blogs
     })
   }
-} 
+}
 
 export const likeBlog = (blog) => {
   return async (dispatch) => {
-    const newBlog = {...blog, likes: blog.likes+1 } 
+    const newBlog = { ...blog, likes: blog.likes+1 }
     await blogService.update(blog.id, newBlog)
     dispatch({
       type: 'LIKE',
@@ -61,7 +62,7 @@ export const createBlog = (blog) => {
     dispatch({
       type: 'CREATE',
       blog: newBlog
-    }) 
+    })
   }
 }
 

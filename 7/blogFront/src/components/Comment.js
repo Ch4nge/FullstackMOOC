@@ -1,4 +1,4 @@
-import React from 'react' 
+import React from 'react'
 import { Comment as Comm } from 'semantic-ui-react'
 
 class Comment extends React.Component {
@@ -13,7 +13,7 @@ class Comment extends React.Component {
           </Comm.Text>
         </Comm.Content>
       </Comm>
-    ) 
+    )
   }
 }
 

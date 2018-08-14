@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom' 
+import { Link } from 'react-router-dom'
 
 class Blog extends React.Component {
 
@@ -10,18 +10,18 @@ class Blog extends React.Component {
 
   render() {
     const { blog } = this.props
-     const blogStyle = {
+    const blogStyle = {
       paddingTop: 10,
       paddingLeft: 2,
       border: 'solid',
       borderWidth: 1,
       marginBottom: 5
     }
-    return(  
+    return(
       <div style={blogStyle} >
         <div className="titleDiv" >
           <Link to={'/blogs/'+blog.id}> {blog.title} {blog.author} </Link>
-        </div>  
+        </div>
       </div>
     )
   }
@@ -34,6 +34,6 @@ Blog.propTypes = {
   deleteBlog: PropTypes.func.isRequired,
   canDelete: PropTypes.bool.isRequired
 }
-  
+
 
 export default Blog

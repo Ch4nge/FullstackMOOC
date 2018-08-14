@@ -4,8 +4,8 @@ import SimpleBlog from './SimpleBlog.js'
 
 
 const blog = {
-  title: "testi",
-  author: "testaaja",
+  title: 'testi',
+  author: 'testaaja',
   likes: 1
 }
 
@@ -14,7 +14,7 @@ describe.only('<SimpleBlog />', () => {
     const blogComponent = shallow(<SimpleBlog blog={blog} />)
     const contentDiv = blogComponent.find('.content')
     const contentDiv2 = blogComponent.find('.content2')
-  
+
     expect(contentDiv.text()).toContain(blog.title)
     expect(contentDiv.text()).toContain(blog.author)
     expect(contentDiv2.text()).toContain(blog.likes)
@@ -27,6 +27,6 @@ describe.only('<SimpleBlog />', () => {
     button.simulate('click')
     button.simulate('click')
 
-    expect(mockHandler.mock.calls.length).toBe(2) 
+    expect(mockHandler.mock.calls.length).toBe(2)
   })
 })

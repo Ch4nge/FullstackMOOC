@@ -1,18 +1,18 @@
-import React from 'react';
-import { connect } from 'react-redux' 
+import React from 'react'
+import { connect } from 'react-redux'
 
-const Notification = ({ message, type}) => {
+const Notification = ({ message, type }) => {
   if (message === '') {
     return null
-  }else if(type === "error"){
+  }else if(type === 'error'){
     return(
-      <div className="error">
+      <div className='error'>
         {message}
-      </div>      
+      </div>
     )
   }
   return (
-    <div className="success">
+    <div className='success'>
       {message}
     </div>
   )

@@ -9,7 +9,7 @@ describe.only('<Blog />', () => {
     url: '',
     likes: 2
   }
-   console.log('hello');
+
   it('at start contents are not shown', () => {
     const blogComponent = shallow(<Blog blog={blog} />)
     const contentDiv = blogComponent.find('.content')
